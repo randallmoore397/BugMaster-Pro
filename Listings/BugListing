@@ -1,0 +1,8 @@
+class BugListing():
+    """_summary_
+        This Class generates listings for bugs
+        o	Search Functionality: Full-text search to quickly find specific bugs.
+        o	Sorting Options: Sort bugs by different fields (e.g., creation date, severity, assignee).
+    """
+    def __init__(self):
+        pass
