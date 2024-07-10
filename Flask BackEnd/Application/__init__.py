@@ -135,6 +135,7 @@ from Application.models import User, Role
 #*************** Import Blueprint **************
 from Application.User.route import user
 from Application.Tracking.route import Tracking
+from Application.Project.route import project
 
 
 
@@ -145,6 +146,7 @@ from Application.Tracking.route import Tracking
 #************ Register Blueprints *************#
 app.register_blueprint(user)
 app.register_blueprint(Tracking)
+app.register_blueprint(project)
 
 
 

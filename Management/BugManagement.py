@@ -1,5 +1,6 @@
 from datetime import datetime
 import requests
+from Management.MakeRequest import  MakeRequest
 
 class BugManagement:
     """_summary_
@@ -19,10 +20,7 @@ class BugManagement:
         self.creator_id = creator_id
         self.assigned_developer = assigned_developer
         self.token = token  # Include token in the class initialization
-        self.headers = {
-            'Authorization': f'Bearer {self.token}',
-            'Content-Type': 'application/json'
-        }
+        
     
     def trackBug(self, bug_title: str, severity: str, deadline: str):
         """Track a new bug in the system.
@@ -54,20 +52,17 @@ class BugManagement:
             'creator_id': self.creator_id,
             'assigned_developer': self.assigned_developer
         }
-
-        try:
-            response = requests.post(url, json=payload, headers=self.headers)
-
-            # Handling Response: Checking for success or errors
-            if response.status_code == 200:
-                print('Success:', response.json())
-                return True
-            else:
-                print('Error:', response.status_code, response.text)
-                return False
         
-        except requests.RequestException as e:
-            print(f"Request failed: {e}")
+        post = MakeRequest(target_url=url,payload=payload,bearer_token=self.token)
+        data = post.sendPOST()
+        if data["status"] == True:
+            print("Bug Tracked....!!!")
+            print(f"Response : {data}")
+        elif data["status"] == False:
+            print("Error, Bug Tracking Failed..try again")
+        else:
+            print("Error: Can't Connect to the internet")
+
             
             
     def removeBugTrack(self,bug_uuid:str,creator_id:str,message:str):
@@ -89,21 +84,16 @@ class BugManagement:
             'message': message,
 
         }
-
-        try:
-            response = requests.delete(url, json=payload, headers=self.headers)
-
-            # Handling Response: Checking for success or errors
-            if response.status_code == 200:
-                print('Success:', response.json())
-                return True
-            else:
-                print('Error:', response.status_code, response.text)
-                return False
         
-        except requests.RequestException as e:
-            print(f"Request failed: {e}")
-    
+        post = MakeRequest(target_url=url,payload=payload,bearer_token=self.token)
+        data = post.sendDELETE()
+        if data["status"] == True:
+            print("Bug Deleted....!!!")
+            print(f"Response : {data}")
+        elif data["status"] == False:
+            print("Error, Bug Deletion Failed..try again")
+        else:
+            print("Error: Can't Connect to the internet")
     
 
 # Example usage
